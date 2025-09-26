@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Truck Favorites</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #87ceeb 0%, #b0e0e6 100%);
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .awning {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            height: 80px;
+            background: repeating-linear-gradient(45deg, #ff4444, #ff4444 10px, #ffffff 10px, #ffffff 20px);
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-title {
+            font-size: 3rem;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            margin: 30px 0 10px 0;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: #34495e;
+            margin: 0;
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .food-truck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .food-truck-card {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .food-truck-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .food-truck-card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .truck-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 8px 0;
+            text-align: center;
+        }
+
+        .truck-cuisine {
+            font-size: 1rem;
+            color: #7f8c8d;
+            text-align: center;
+            margin: 0 0 12px 0;
+            font-weight: 500;
+        }
+
+        .truck-description {
+            font-size: 0.9rem;
+            color: #34495e;
+            text-align: center;
+            margin: 0 0 20px 0;
+            line-height: 1.4;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #c0392b, #a93226);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+
+        .btn-secondary:hover {
+            background: #e74c3c;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .food-truck-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            .card-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.8rem;
+            }
+            
+            .food-truck-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="awning"></div>
+        <h1 class="header-title">Food Truck Favorites</h1>
+        <p class="header-subtitle">Discover amazing food trucks in your community</p>
+    </header>
+
+    <main class="main-content">
+        <div class="food-truck-grid" id="foodTruckGrid">
+            <!-- Food truck cards will be generated by JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        const foodTrucks = [
+            {
+                id: 1,
+                name: "Birria-Landia",
+                cuisine: "Mexican",
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Authentic Mexican birria tacos and quesadillas"
+            },
+            {
+                id: 2,
+                name: "Mysttik Masala",
+                cuisine: "Indian",
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Flavorful Indian street food and curries"
+            },
+            {
+                id: 3,
+                name: "The Halal Guys",
+                cuisine: "Middle Eastern",
+                image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Famous halal platters and wraps"
+            },
+            {
+                id: 4,
+                name: "Seoul Kitchen",
+                cuisine: "Korean",
+                image: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Korean BBQ and kimchi specialties"
+            },
+            {
+                id: 5,
+                name: "Pasta La Vista",
+                cuisine: "Italian",
+                image: "https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Fresh pasta and wood-fired pizza"
+            },
+            {
+                id: 6,
+                name: "Dragon Bites",
+                cuisine: "Chinese",
+                image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Authentic Chinese dumplings and noodles"
+            },
+            {
+                id: 7,
+                name: "Bayou Bites",
+                cuisine: "Cajun",
+                image: "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Spicy jambalaya and po'boy sandwiches"
+            },
+            {
+                id: 8,
+                name: "Sushi Wheels",
+                cuisine: "Japanese",
+                image: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Fresh sushi rolls and ramen bowls"
+            },
+            {
+                id: 9,
+                name: "Greek Street",
+                cuisine: "Greek",
+                image: "https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Mediterranean gyros and souvlaki"
+            },
+            {
+                id: 10,
+                name: "BBQ Beast",
+                cuisine: "American BBQ",
+                image: "https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Smoked brisket and pulled pork"
+            },
+            {
+                id: 11,
+                name: "Tropical Treats",
+                cuisine: "Caribbean",
+                image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Jerk chicken and plantain dishes"
+            },
+            {
+                id: 12,
+                name: "Waffle Wanderer",
+                cuisine: "Desserts",
+                image: "https://images.unsplash.com/photo-1562376552-0d160dcb2b5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                description: "Belgian waffles and sweet treats"
+            }
+        ];
+
+        function createFoodTruckCard(truck) {
+            return `
+                <div class="food-truck-card">
+                    <div class="card-image-container">
+                        <img src="${truck.image}" alt="${truck.name}" class="card-image" 
+                             onerror="this.src='https://via.placeholder.com/300x200/87ceeb/2c3e50?text=${encodeURIComponent(truck.name)}'">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="truck-name">${truck.name}</h3>
+                        <p class="truck-cuisine">${truck.cuisine}</p>
+                        <p class="truck-description">${truck.description}</p>
+                        <div class="card-buttons">
+                            <button class="btn btn-primary" onclick="viewMenu('${truck.name}')">
+                                View Menu
+                            </button>
+                            <button class="btn btn-secondary" onclick="findLocation('${truck.name}')">
+                                Find Location
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function viewMenu(truckName) {
+            alert(`Opening menu for ${truckName}!`);
+        }
+
+        function findLocation(truckName) {
+            alert(`Finding location for ${truckName}!`);
+        }
+
+        // Generate and insert food truck cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.getElementById('foodTruckGrid');
+            const cardsHTML = foodTrucks.map(truck => createFoodTruckCard(truck)).join('');
+            grid.innerHTML = cardsHTML;
+        });
+    </script>
+</body>
+</html>
