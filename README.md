@@ -1,7 +1,7 @@
 # Web Development Project 1 - week_1
 
 Submitted by: Emmanuel Enenta
-This web app: Food Truck Favourite
+This web app: Food Truck Favourite.
 
 Time spent: 20 hours spent in total
 
